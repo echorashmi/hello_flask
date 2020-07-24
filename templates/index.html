@@ -1,0 +1,37 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <h1>Your Portfolio:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Stock Symbol</th>
+                <th>No. of Shares Owned</th>
+                <th>Current Price of Each Stock</th>
+                <th>Total Value of each Holding (Shares * Price)</th>
+            </tr>
+        </thead>
+        {% for row in result %}
+        <tr>
+            <td> {{ row['symbol'] }} </td>
+            <td> {{ row['total_shares_purchased'] }} </td>
+            <td> {{ row['price_per_stock'] }} </td>
+            <td> {{ row['total_shares_purchased'] * row['price_per_stock'] }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+
+    <div>
+        <span>Your Cash Balance:</span>
+        <span>{{ cash_balance }}</span>
+    </div>
+
+    <div>
+        <span>Grand Total of Your Assets:</span>
+        <span>{{ grand_total }}</span>
+    </div>
+{% endblock %}

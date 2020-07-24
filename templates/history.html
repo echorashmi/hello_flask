@@ -1,0 +1,29 @@
+{% extends "layout.html" %}
+
+{% block title %}
+    Log In
+{% endblock %}
+
+{% block main %}
+    <h1>Your Transaction History:</h1>
+    <table>
+        <thead>
+            <tr>
+                <th>Stock Symbol</th>
+                <th>No. of Shares Purchased</th>
+                <th>Purchase Price</th>
+                <th>Total Value of each Holding (Shares * Price)</th>
+                <th>Date / Time of Transaction</th>
+            </tr>
+        </thead>
+        {% for row in result %}
+        <tr>
+            <td> {{ row['symbol'] }} </td>
+            <td> {{ row['total_shares_purchased'] }} </td>
+            <td> {{ row['price_per_stock'] }} </td>
+            <td> {{ row['total_shares_purchased'] * row['price_per_stock'] }} </td>
+            <td> {{ row['datetimestamp'] }} </td>
+        </tr>
+        {% endfor %}
+    </table>
+{% endblock %}
