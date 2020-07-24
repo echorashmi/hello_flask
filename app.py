@@ -45,7 +45,7 @@ if not os.environ.get("API_KEY"):
 @app.route("/")
 @login_required
 def index():
-    rows = db.execute("SELECT * FROM buys WHERE user_id = :id", id=session["user_id"])
+    rows = db.execute("SELECT * FROM transactions WHERE user_id = :id", id=session["user_id"])
     cash_query = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
     cash_balance = cash_query[0]['cash']
     grand_total = float(cash_balance)
@@ -77,9 +77,6 @@ def buy():
         else:
             count_to_purchase = int(request.form.get("shares"))
 
-        # 3.c Call lookup to look at the price
-        print(shares) # ------- TODO
-
         # 3.d Find how much cash the user has
         # Query database for username
         rows = db.execute("SELECT cash FROM users WHERE id = :id", id=session["user_id"])
@@ -87,12 +84,12 @@ def buy():
         user_cash = rows[0]["cash"]
 
         # 3.f Render apology if user cannot afford number of shared at the current price
-        if user_cash < (0.50*count_to_purchase): # Assume 0.50 is price per share
+        if user_cash < (shares['price']*count_to_purchase): 
             return apology("Insufficient Funds", 403)
         else:
-        # 3.g Store the transaction in table buys if a user has the details
-            insert = "insert into buys (user_id, symbol, price_per_stock, total_shares_purchased) values(?, ?, ?, ?)"
-            rows = db.execute(insert, session["user_id"], request.form.get("symbol"), 0.50, count_to_purchase)
+        # 3.g Store the transaction in table transactions if a user has the details
+            insert = "insert into transactions (user_id, symbol, price_per_stock, total_shares_purchased, type) values(?, ?, ?, ?, 'BUY')"
+            rows = db.execute(insert, session["user_id"], request.form.get("symbol"), shares['price'], count_to_purchase)
         return render_template("buy.html")
     else:
         return render_template("buy.html")
