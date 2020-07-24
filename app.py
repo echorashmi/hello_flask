@@ -7,6 +7,7 @@ from flask_session import Session
 from tempfile import mkdtemp
 from werkzeug.exceptions import default_exceptions, HTTPException, InternalServerError
 from werkzeug.security import check_password_hash, generate_password_hash
+from datetime import datetime
 
 from helpers import apology, login_required, lookup, usd
 
@@ -102,7 +103,7 @@ def buy():
 @login_required
 def history():
     """Show history of transactions"""
-    rows = db.execute("SELECT * FROM buys WHERE user_id = :id", id=session["user_id"])
+    rows = db.execute("SELECT * FROM transactions WHERE user_id = :id", id=session["user_id"])
 
     return render_template("history.html", result = rows)
 

@@ -9,3 +9,8 @@ To work on local:
 
 Known Issues:
 1. I haven't been able to use the terminal inside my IDE for flask run, it doesn't work and doesn't initialise the Virtual Env. Not sure why that is. I have a workaround that works for me and allows me to focus on the application itself. I am curious about this and might come back to fix it and get my IDE to run "flask run" at some point.
+
+What all to copy to CS50 IDE at time of submission:
+1. Everything in Templates
+2. SQL Modifications
+3. app.py
